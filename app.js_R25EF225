@@ -1,0 +1,60 @@
+// ---------- 1. Reusable toast function ----------
+// Call showToast("any message") whenever you want a notification.
+function showToast(message) {
+    // create a new div and put the message inside it
+    const toast = document.createElement("div");
+    toast.className = "toast";
+    toast.textContent = message;
+
+    // add it to the page
+    document.body.appendChild(toast);
+
+    // remove it after 3 seconds
+    setTimeout(function () {
+        toast.remove();
+    }, 3000);
+}
+
+// ---------- 2. Book buttons: smooth scroll + toast ----------
+// Select all the "Book" buttons inside the match schedule table
+const bookButtons = document.querySelectorAll("td .my-button");
+
+bookButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+        // find the match name (2nd column of the same row)
+        const matchName = button.closest("tr").cells[1].textContent;
+
+        // smoothly scroll to the booking form
+        document.getElementById("booking").scrollIntoView({ behavior: "smooth" });
+
+        // show the notification
+        showToast("Booking form opened for " + matchName);
+    });
+});
+
+// ---------- 3. Confirm Booking: show toast ----------
+const bookingForm = document.querySelector("form");
+
+bookingForm.addEventListener("submit", function (event) {
+    // stop the form from reloading the page
+    event.preventDefault();
+
+    // show the notification
+    showToast("Booking confirmed! Check your email for details.");
+
+    // clear the form fields
+    bookingForm.reset();
+});
+
+// ---------- 4. Show IPL info when the page loads ----------
+// DOMContentLoaded = runs after the HTML has finished loading
+document.addEventListener("DOMContentLoaded", function () {
+    // get the paragraph with id="demo"
+    const demo = document.getElementById("demo");
+
+    // put text inside it
+    demo.textContent =
+        "The Indian Premier League (IPL) 2026 is a T20 cricket tournament " +
+        "where top teams like CSK, MI, RCB and KKR compete in exciting " +
+        "matches across cities like Chennai, Mumbai, Bengaluru and Kolkata.";
+});
